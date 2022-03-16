@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">json_parsing_demo_r18</string>
+    <string name="bu_get_json_text">Get Information</string>
+    <string name="bu_change_person">Change Person</string>
+</resources>
