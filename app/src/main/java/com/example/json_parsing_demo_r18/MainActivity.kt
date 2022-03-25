@@ -37,8 +37,11 @@ class MainActivity : AppCompatActivity() {
     private fun getJson() {
         val thread = Thread {
             try {
+                // Set URL
                 val url = URL("https://jsonplaceholder.typicode.com/users")
+                // Set http connection to given url
                 val connection = url.openConnection() as HttpURLConnection
+                // Buffer data from http get to a string to build json out of
                 BufferedReader(InputStreamReader(connection.inputStream)).use { inp ->
                     var line: String?
                     while (inp.readLine().also { line = it } != null) {
@@ -53,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         thread.start()
     }
 
+    // Build jsonArray from jsonString
     private fun buildJsonArray() {
         try {
             jsonArray = JSONTokener(jsonString).nextValue() as JSONArray
@@ -61,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getPerson() {
+    // Sets user information to texView objects
+    private fun setPerson() {
         // Get the nested json object
         val jsonObjectAddress = jsonArray!!.getJSONObject(person).getJSONObject("address")
 
@@ -75,17 +80,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun changePerson() {
-        try {
-            if(jsonArray != null) {
-                if(person < jsonArray!!.length()-1) {
-                    person++
-                } else {
-                    person = 0
-                }
-                getPerson()
+        // Check if function was called before JSON was requested
+        if(jsonArray != null) {
+            if(person < jsonArray!!.length()-1) {
+                person++
+            } else {
+                person = 0
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+            setPerson()
         }
     }
 }
